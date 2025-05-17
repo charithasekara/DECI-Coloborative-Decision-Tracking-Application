@@ -19,6 +19,7 @@ import {
   HelpCircle,
   Menu,
   X,
+  LogOut,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -104,21 +105,23 @@ const sidebarNavItems = [
   },
 ];
 
+// Animation variants for sidebar items
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
-    }
-  }
+      staggerChildren: 0.1,
+    },
+  },
 };
 
 const item = {
   hidden: { opacity: 0, x: -20 },
-  show: { opacity: 1, x: 0 }
+  show: { opacity: 1, x: 0 },
 };
 
+// SidebarItem component for rendering each navigation item
 const SidebarItem = ({ item, pathname }: { item: any; pathname: string }) => {
   return (
     <Button
@@ -151,17 +154,19 @@ export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Handle window resize to detect mobile view
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Close sidebar on route change in mobile view
   useEffect(() => {
     if (isMobile) {
       setIsOpen(false);
@@ -189,97 +194,106 @@ export function Sidebar() {
       </Button>
 
       {/* Backdrop */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
-          onClick={toggleSidebar}
-        />
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
+            onClick={toggleSidebar}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Sidebar */}
       <motion.div
         initial={false}
         animate={{
-          x: isOpen || !isMobile ? 0 : -250,
-          opacity: 1
+          x: isMobile ? (isOpen ? 0 : -256) : 0,
+          width: isMobile ? (isOpen ? 256 : 0) : 256,
         }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
         className={cn(
-          "fixed left-0 top-0 bottom-0 w-[250px] z-50",
-          "border-r bg-gradient-to-b from-background via-background/95 to-background/90",
-          "transition-transform duration-300 ease-in-out",
-          isMobile ? "shadow-xl" : ""
+          'sidebar fixed top-0 bottom-0 w-64 border-r bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+          'flex flex-col transition-all duration-300'
         )}
       >
-        <div className="flex h-full flex-col">
-          <div className="flex h-16 items-center gap-2 px-6 border-b">
-            <Link className="flex items-center gap-2 font-semibold" href="/">
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
-                className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary"
-              >
-                <BarChart3 className="h-4 w-4 text-primary-foreground" />
-              </motion.div>
-              <span className="text-xl font-bold">Deci</span>
-            </Link>
-          </div>
-
-          <ScrollArea className="flex-1 py-6">
-            <motion.nav
-              variants={container}
-              initial="hidden"
-              animate="show"
-              className="grid gap-4 px-4"
+        {/* Sidebar Header */}
+        <div className="flex h-16 items-center border-b px-6">
+          <Link href="/dashboard" className="flex items-center space-x-2">
+            <motion.span
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl font-bold text-foreground"
             >
-              {sidebarNavItems.map((item, index) => {
-                if ('section' in item) {
-                  return (
-                    <motion.div key={index} variants={item} className="space-y-3">
-                      <div className="px-4 text-xs font-semibold uppercase text-muted-foreground">
-                        {item.section}
-                      </div>
-                      {item.items.map((subItem, subIndex) => (
-                        <SidebarItem key={subIndex} item={subItem} pathname={pathname} />
-                      ))}
+              Deci
+            </motion.span>
+          </Link>
+        </div>
+
+        {/* Sidebar Content */}
+        <ScrollArea className="flex-1 px-3 py-4">
+          <motion.nav variants={container} initial="hidden" animate="show" className="space-y-1">
+            {sidebarNavItems.map((navItem, index) =>
+              navItem.section ? (
+                <div key={index} className="space-y-1 pt-4">
+                  <motion.h4
+                    variants={item}
+                    className="px-3 text-xs font-semibold uppercase text-muted-foreground"
+                  >
+                    {navItem.section}
+                  </motion.h4>
+                  {navItem.items.map((subItem: any, subIndex: number) => (
+                    <motion.div key={subIndex} variants={item}>
+                      <SidebarItem item={subItem} pathname={pathname} />
                     </motion.div>
-                  );
-                }
-                return (
-                  <motion.div key={index} variants={item}>
-                    <SidebarItem item={item} pathname={pathname} />
-                  </motion.div>
-                );
-              })}
-            </motion.nav>
-          </ScrollArea>
+                  ))}
+                </div>
+              ) : (
+                <motion.div key={index} variants={item}>
+                  <SidebarItem item={navItem} pathname={pathname} />
+                </motion.div>
+              )
+            )}
+          </motion.nav>
+        </ScrollArea>
+
+        {/* Sidebar Footer */}
+        <div className="border-t p-4">
+          <Button variant="ghost" className="w-full justify-center sidebar-item cursor-pointer border-2 hover:bg-destructive">
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Log out</span>
+          </Button>
         </div>
       </motion.div>
 
-      {/* Mobile Navigation */}
-      <div className="mobile-nav">
-        <div className="flex justify-around py-2">
-          {sidebarNavItems.slice(0, 5).map((item, index) => {
-            if ('section' in item) return null;
-            const Icon = item.icon;
-            return (
-              <Link
+      {/* Mobile Bottom Navigation */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="mobile-nav md:hidden"
+      >
+        <div className="flex justify-around">
+          {sidebarNavItems
+            .filter((item) => !item.section)
+            .slice(0, 5)
+            .map((item, index) => (
+              <Button
                 key={index}
-                href={item.href}
-                className={cn(
-                  'mobile-nav-item',
-                  pathname === item.href && 'text-primary'
-                )}
+                asChild
+                variant="ghost"
+                className={cn('mobile-nav-item', pathname === item.href && 'text-primary')}
               >
-                <Icon className="h-6 w-6" />
-                <span className="text-xs mt-1">{item.title}</span>
-              </Link>
-            );
-          })}
+                <Link href={item.href || '#'}>
+                  {item.icon && <item.icon className="h-5 w-5" />}
+                  <span className="text-xs mt-1">{item.title}</span>
+                </Link>
+              </Button>
+            ))}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
