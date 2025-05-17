@@ -1,64 +1,54 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-
-dotenv.config();
+const decisionRoutes = require('./routes/decisions');
+const goalRoutes = require('./routes/goals');
+const projectRoutes = require('./routes/projects');
+const aiRoutes = require('./routes/ai');
+require('dotenv').config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/decision-making-app';
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+}));
+app.use(express.json({ limit: '1mb' }));
 
-// MongoDB Connection with better error handling
-const connectDB = async () => {
-  try {
-    console.log('Attempting to connect to MongoDB...');
-    await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000,
-    });
-    console.log('✅ Connected to MongoDB successfully');
-  } catch (err) {
-    console.error('❌ MongoDB connection error:', err.message);
-    process.exit(1); // Ensuring the app stops if DB connection fails
-  }
-};
+// MongoDB Connection
+mongoose
+  .connect(MONGODB_URI, {})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((error) => {
+    console.error('MongoDB connection error:', error.message);
+    process.exit(1);
+  });
 
-// Initial connection
-connectDB();
-
-// Handle connection errors
-mongoose.connection.on('error', (err) => {
-  console.error('MongoDB connection error:', err);
+mongoose.connection.on('error', (error) => {
+  console.error('MongoDB error:', error.message);
 });
 
 // Routes
-app.use('/api/decisions', require('./routes/decisions'));
+app.use('/api/decisions', decisionRoutes);
+app.use('/api/goals', goalRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/ai', aiRoutes);
 
-// Home route to check if the backend is running
-app.get("/", (_req, res) => {
-  res.send("Backend is running!");
+// Enhanced Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err.stack);
+  if (err.name === 'ValidationError') {
+    const errors = Object.values(err.errors).map((e) => e.message);
+    return res.status(400).json({ message: 'Validation failed', errors });
+  } else if (err.name === 'MongoError' || err.name === 'MongooseError') {
+    return res.status(500).json({ message: 'Database error', errors: [err.message] });
+  }
+  res.status(500).json({ message: 'Internal server error', errors: [err.message] });
 });
 
-// Set the port for the server
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
-
-// Handle server errors
-server.on('error', (err) => {
-  console.error('Server error:', err);
-  process.exit(1);
-});
-
-// Graceful shutdown for the server
-process.on('SIGTERM', async () => {
-  console.log('SIGTERM received. Shutting down gracefully...');
-  await mongoose.connection.close();
-  server.close(() => {
-    console.log('Process terminated');
-    process.exit(0);
-  });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
