@@ -148,4 +148,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 - Gratitude to the Next.js and Tailwind CSS communities for their tools and support.
 - Thanks to GitHub for security features like Push Protection.
-`````
+
