@@ -100,9 +100,9 @@ Ensure the following tools are installed:
     ````
 - Run the Development Server
     ```bash
-    npm install --force
+    npm run dev
     # or
-    yarn install --force
+    yarn dev
     ````
 MONGODB_URI=mongodb+srv://charithmadhushansekara:deci111mongo123@decisions.axf4i.mongodb.net/decisionsDbbfk
 PORT=5000
