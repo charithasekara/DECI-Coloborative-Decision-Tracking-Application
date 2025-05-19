@@ -9,6 +9,7 @@ Deci is a lightweight web-based application designed to streamline organizationa
 ## Purpose
 
 Deci addresses the challenges of tracking decisions in fast-paced environments, where issues like lost information, repeated discussions, and lack of transparency often arise. It achieves this by:
+
 - Documenting decision details (context, stakeholders, impact).
 - Enabling collaboration and knowledge retention.
 - Providing analytics for data-driven insights.
@@ -29,16 +30,19 @@ Deci addresses the challenges of tracking decisions in fast-paced environments, 
 Deci adopts a **Layered Architecture**, dividing the system into three layers:
 
 ### Presentation Layer
+
 - **Location**: `app/` and `components/` directories.
 - **Details**: `dashboard/page.tsx` renders metrics in a responsive grid, and `app/decisions/` manages CRUD forms with Tailwind CSS for mobile responsiveness.
 - **Purpose**: Ensures an accessible, user-friendly interface.
 
 ### Business Logic Layer
+
 - **Location**: `lib/` directory.
 - **Details**: `api.ts` supports `decisionApi.getAll({ limit: 1000 })` for scalable reads and CRUD operations, while `analytics.ts` handles impact scoring.
 - **Purpose**: Manages decision processing and performance.
 
 ### Data Layer
+
 - **Location**: `models/` and `routes/` directories.
 - **Details**: `models/Decisions.js` defines decision structures, and `routes/decisions.js` maps API endpoints (e.g., `POST /api/decisions`).
 - **Purpose**: Maintains data consistency and secure API interactions.
@@ -46,20 +50,29 @@ Deci adopts a **Layered Architecture**, dividing the system into three layers:
 ## Installation
 
 ### Prerequisites
+
 Ensure the following tools are installed:
+
 - **Node.js**: Version 14.x or later ([download](https://nodejs.org/))
 - **npm** or **yarn**: Included with Node.js or install separately
 - **Git**: For cloning the repository ([download](https://git-scm.com/))
 
 ### Steps
+
 1. **Clone the Repository**
-  - Ensure you have Git installed on your system.
-   - Open a terminal and run:
-     ```bash
-     # Clone the repository
-     git clone https://github.com/charithasekara/DECI-Collaborative-Decision-Tracking-Application.git
-     # Navigate into the project directory
-     cd Deci
+
+- Ensure you have Git installed on your system.
+- Open a terminal and run:
+
+  ```bash
+  # Clone the repository
+  git clone https://github.com/charithasekara/DECI-Collaborative-Decision-Tracking-Application.git
+
+  ```
+- Navigate into the project directory
+  ```bash
+   cd Deci
+  ```
 
 ## Usage
 
@@ -70,18 +83,18 @@ Ensure the following tools are installed:
 
 ## Development Challenges
 
-| **Challenge**                | **Solution**                                      |
-|------------------------------|--------------------------------------------------|
-| **Overwhelming Forms**       | Implemented stepwise forms in `app/decisions/` with Tailwind CSS. |
-| **UI Clarity**               | Enhanced responsiveness in `dashboard/page.tsx` with Tailwind CSS. |
-| **Secret Leaks**             | Updated `.gitignore` and removed `.env` via `git rebase`. |
-| **CRUD Performance**         | Added pagination in `lib/api.ts` with `decisionApi.getAll()`. |
-| **Responsive Analytics**     | Optimized `dashboard/page.tsx` with Tailwind CSS layouts. |
-| **TypeScript Errors**        | Simplified code and updated `tsconfig.json`.      |
-| **Form Validation**          | Added client-side validation in `app/decisions/`. |
-| **Data Fetching**            | Improved `lib/api.ts` with error handling.        |
-| **Large Timelines**          | Used lazy loading in `dashboard/page.tsx`.        |
-| **Theme Performance**        | Cached styles in local storage for theme toggle.  |
+| **Challenge**            | **Solution**                                                       |
+| ------------------------ | ------------------------------------------------------------------ |
+| **Overwhelming Forms**   | Implemented stepwise forms in `app/decisions/` with Tailwind CSS.  |
+| **UI Clarity**           | Enhanced responsiveness in `dashboard/page.tsx` with Tailwind CSS. |
+| **Secret Leaks**         | Updated `.gitignore` and removed `.env` via `git rebase`.          |
+| **CRUD Performance**     | Added pagination in `lib/api.ts` with `decisionApi.getAll()`.      |
+| **Responsive Analytics** | Optimized `dashboard/page.tsx` with Tailwind CSS layouts.          |
+| **TypeScript Errors**    | Simplified code and updated `tsconfig.json`.                       |
+| **Form Validation**      | Added client-side validation in `app/decisions/`.                  |
+| **Data Fetching**        | Improved `lib/api.ts` with error handling.                         |
+| **Large Timelines**      | Used lazy loading in `dashboard/page.tsx`.                         |
+| **Theme Performance**    | Cached styles in local storage for theme toggle.                   |
 
 ## Contributing
 
