@@ -1,19 +1,5 @@
 # Deci - Collaborative Decision Dashboard for Learning (CCDL)
 
-## Table of Contents
-- [Overview](#overview)
-- [Purpose](#purpose)
-- [Features](#features)
-- [Software Architecture](#software-architecture)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Development Challenges](#development-challenges)
-- [Contributing](#contributing)
-- [Future Plans](#future-plans)
-- [License](#license)
-- [Contact](#contact)
-- [Acknowledgments](#acknowledgments)
-
 ## Overview
 
 Deci is a lightweight web-based application designed to streamline organizational decision management. Built with [Next.js](https://nextjs.org/) and styled with Tailwind CSS, Deci provides a centralized platform to document, track, and analyze decisions, ensuring transparency and knowledge retention. It leverages a **Layered Architecture** to enhance maintainability, scalability, and usability.
@@ -67,9 +53,12 @@ Ensure the following tools are installed:
 
 ### Steps
 1. **Clone the Repository**
+  - Ensure you have Git installed on your system.
    - Open a terminal and run:
      ```bash
-    git clone https://github.com/charithasekara/DECI-Coloborative-Decision-Tracking-Application.git
+     # Clone the repository
+     git clone https://github.com/charithasekara/DECI-Collaborative-Decision-Tracking-Application.git
+     # Navigate into the project directory
      cd Deci
 
 ## Usage
