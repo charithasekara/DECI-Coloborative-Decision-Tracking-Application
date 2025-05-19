@@ -1,169 +1,124 @@
-Deci - Collaborative Decision Dashboard for Learning (CCDL)
-Overview
-Welcome to Deci, a lightweight web-based application designed to track and manage organizational decisions effectively. Built with Next.js, Deci addresses the challenge of undocumented decisions by providing a centralized, searchable history of decisions, including their context, stakeholders, and impact. As of 12:28 PM +0530 on Monday, May 19, 2025, Deci leverages a Layered Architecture (Presentation, Business Logic, and Data layers) to ensure maintainability, scalability, and usability.
-Purpose
-In today’s fast-paced industrial environment, decisions—ranging from strategic moves to operational choices—drive progress. However, tracking these decisions often leads to issues like lost information, repeated discussions, and reduced transparency. Deci solves these problems by:
+# Deci - Collaborative Decision Dashboard for Learning (CCDL)
+
+## Table of Contents
+- [Overview](#overview)
+- [Purpose](#purpose)
+- [Features](#features)
+- [Software Architecture](#software-architecture)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Development Challenges](#development-challenges)
+- [Contributing](#contributing)
+- [Future Plans](#future-plans)
+- [License](#license)
+- [Contact](#contact)
+- [Acknowledgments](#acknowledgments)
+
+## Overview
+
+Deci is a lightweight web-based application designed to streamline organizational decision management. Built with [Next.js](https://nextjs.org/) and styled with Tailwind CSS, Deci provides a centralized platform to document, track, and analyze decisions, ensuring transparency and knowledge retention. It leverages a **Layered Architecture** to enhance maintainability, scalability, and usability.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Purpose
+
+Deci addresses the challenges of tracking decisions in fast-paced environments, where issues like lost information, repeated discussions, and lack of transparency often arise. It achieves this by:
+- Documenting decision details (context, stakeholders, impact).
+- Enabling collaboration and knowledge retention.
+- Providing analytics for data-driven insights.
+
+## Features
+
+- **Intuitive UI**: Responsive design with Tailwind CSS (e.g., `md:grid-cols-2` layouts).
+- **Decision Logging**: Capture decisions with context via structured forms.
+- **Analytics**: Visualize trends using Chart.js in `dashboard/page.tsx`.
+- **Timelines**: Display recent decisions chronologically.
+- **Dashboards**: Present metrics in a grid layout (e.g., total decisions, high-impact decisions).
+- **Impact Scoring**: Highlight decisions with scores ≥ 8.
+- **CRUD Operations**: Create, Read, Update, and Delete decisions via `decisionApi`.
+- **Theme Toggle**: Switch between light and dark modes with optimized performance.
+
+## Software Architecture
+
+Deci adopts a **Layered Architecture**, dividing the system into three layers:
+
+### Presentation Layer
+- **Location**: `app/` and `components/` directories.
+- **Details**: `dashboard/page.tsx` renders metrics in a responsive grid, and `app/decisions/` manages CRUD forms with Tailwind CSS for mobile responsiveness.
+- **Purpose**: Ensures an accessible, user-friendly interface.
+
+### Business Logic Layer
+- **Location**: `lib/` directory.
+- **Details**: `api.ts` supports `decisionApi.getAll({ limit: 1000 })` for scalable reads and CRUD operations, while `analytics.ts` handles impact scoring.
+- **Purpose**: Manages decision processing and performance.
+
+### Data Layer
+- **Location**: `models/` and `routes/` directories.
+- **Details**: `models/Decisions.js` defines decision structures, and `routes/decisions.js` maps API endpoints (e.g., `POST /api/decisions`).
+- **Purpose**: Maintains data consistency and secure API interactions.
+
+## Installation
+
+### Prerequisites
+Ensure the following tools are installed:
+- **Node.js**: Version 14.x or later ([download](https://nodejs.org/))
+- **npm** or **yarn**: Included with Node.js or install separately
+- **Git**: For cloning the repository ([download](https://git-scm.com/))
+
+### Steps
+1. **Clone the Repository**
+   - Open a terminal and run:
+     ```bash
+    git clone https://github.com/charithasekara/DECI-Coloborative-Decision-Tracking-Application.git
+     cd Deci
+
+## Usage
+
+- **Log a Decision**: Navigate to `/decisions/new`, complete the form with decision details, and submit.
+- **View Decisions**: Visit `/dashboard` for an overview of metrics or `/decisions/[id]` for specific decision details.
+- **Edit/Delete**: Use the edit or delete options available on individual decision pages.
+- **Analytics**: Explore decision trends and patterns on the dashboard.
+
+## Development Challenges
+
+| **Challenge**                | **Solution**                                      |
+|------------------------------|--------------------------------------------------|
+| **Overwhelming Forms**       | Implemented stepwise forms in `app/decisions/` with Tailwind CSS. |
+| **UI Clarity**               | Enhanced responsiveness in `dashboard/page.tsx` with Tailwind CSS. |
+| **Secret Leaks**             | Updated `.gitignore` and removed `.env` via `git rebase`. |
+| **CRUD Performance**         | Added pagination in `lib/api.ts` with `decisionApi.getAll()`. |
+| **Responsive Analytics**     | Optimized `dashboard/page.tsx` with Tailwind CSS layouts. |
+| **TypeScript Errors**        | Simplified code and updated `tsconfig.json`.      |
+| **Form Validation**          | Added client-side validation in `app/decisions/`. |
+| **Data Fetching**            | Improved `lib/api.ts` with error handling.        |
+| **Large Timelines**          | Used lazy loading in `dashboard/page.tsx`.        |
+| **Theme Performance**        | Cached styles in local storage for theme toggle.  |
+
+## Contributing
+
+1. Fork this repository.
+2. Create a feature branch (`git checkout -b feature/new-feature`).
+3. Commit your changes (`git commit -m "Add new feature"`).
+4. Push to the branch (`git push origin feature/new-feature`).
+5. Open a pull request with a clear description of your changes.
 
-Documenting the "why," "what," "who," and "how" of decisions.
-Enhancing collaboration and knowledge retention.
-Supporting data-driven insights with analytics.
+## Future Plans
 
-Features
+- **Advanced Analytics**: Introduce predictive impact scoring.
+- **User Authentication**: Implement role-based access control.
+- **Real-Time Updates**: Add WebSocket or polling support.
+- **Cross-Platform**: Develop a mobile application.
 
-Simplified UI: An intuitive interface using Tailwind CSS for responsive design (e.g., md:grid-cols-2 layouts, max-h-[280px] charts).
-Dedicated Decision Logging: Capture decisions with context, reasoning, and stakeholders via structured forms.
-Decision Analytics: Display trends with a Chart.js line chart in dashboard/page.tsx over 6 or 12 months.
-Decision Timelines: View recent decisions (e.g., last five) in a chronological list.
-Decision Dashboards: Show metrics (total decisions, high-impact decisions) in a grid layout with links to details.
-Scoring Decision Impact Levels: Highlight decisions with impact scores ≥ 8.
-CRUD Operations: Create, Read, Update, and Delete decisions with decisionApi functions.
-Theme Selection (Light/Dark): Toggle between themes with performance-optimized local storage caching.
+## License
 
-Software Architecture
-Deci is built using a Layered Architecture, which organizes the system into three layers:
-Presentation Layer
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-Location: app/ and components/ directories.
-Implementation: dashboard/page.tsx displays metrics in a responsive grid, while app/decisions/ handles CRUD forms with Tailwind CSS (e.g., flex flex-col sm:flex-row). The light/dark theme toggle enhances user experience.
-Purpose: Ensures a clear, accessible UI across devices.
+## Contact
 
-Business Logic Layer
+- **Developers**: W.M.C.M. Weerasekara (18APC3582), W.A.S.Y. Wanniarachchi (18APC3620)
+- **Email**: [charitmadhushansekara@gmail.com]
 
-Location: lib/ directory.
-Implementation: api.ts includes decisionApi.getAll({ limit: 1000 }) for scalable reads, decisionApi.create(), update(), and delete() for CRUD, with error handling and pagination. analytics.ts processes impact scores.
-Purpose: Manages decision processing and optimizes performance.
+## Acknowledgments
 
-Data Layer
-
-Location: models/ and routes/ directories.
-Implementation: models/Decisions.js defines the Decision structure (e.g., id, title, impactScore), while routes/decisions.js maps endpoints like POST /api/decisions and DELETE /api/decisions/:id.
-Purpose: Ensures data consistency and secure API handling.
-
-This architecture guided development, addressing challenges like secret leaks and CRUD scalability.
-Installation and Setup
-Prerequisites
-
-Node.js (v14.x or later)
-npm or yarn
-Git
-
-Steps
-
-Clone the Repository:git clone https://github.com/charithasekara/Deci.git
-cd Deci
-
-
-Install Dependencies:npm install
-# or
-yarn install
-
-
-Set Up Environment Variables:
-Create a .env file in the root directory (ensure it’s in .gitignore to avoid commits).
-Add required variables (e.g., API keys if integrated):NEXT_PUBLIC_API_URL=http://localhost:3000/api
-
-
-Note: Avoid committing sensitive data; use a .env.example for reference.
-
-
-Run the Development Server:npm run dev
-# or
-yarn dev
-
-
-Open http://localhost:3000 in your browser.
-
-
-
-Troubleshooting
-
-If the .env file causes a GitHub Push Protection error, update .gitignore to include /env and remove it from history with:git rm --cached .env
-git rebase -i <commit-hash>~1
-git push --force
-
-
-
-Usage
-
-Logging a Decision: Navigate to /decisions/new, fill out the form (title, impact score, etc.), and submit.
-Viewing Decisions: Check the dashboard at /dashboard for metrics or /decisions/[id] for details.
-Editing/Deleting: Use the respective options on decision detail pages.
-Analytics: Explore trends on the dashboard with the selectable time range.
-
-Development Challenges and Solutions
-
-
-
-Challenge
-Implemented Solution
-
-
-
-Overwhelming Decision Input Forms
-Used a stepwise approach in app/decisions/ with Tailwind CSS (flex flex-col sm:flex-row).
-
-
-Ensuring UI Clarity
-Enhanced dashboard/page.tsx with Tailwind CSS (md:grid-cols-2, max-h-[280px]).
-
-
-Handling Secret Leaks in Repository
-Updated .gitignore, removed .env via git rebase, and force-pushed.
-
-
-Optimizing CRUD Performance
-Added pagination in lib/api.ts with decisionApi.getAll({ limit: 1000 }).
-
-
-Integrating Responsive Analytics
-Refined dashboard/page.tsx with Tailwind CSS (aspect-[4/3], max-h-[280px]).
-
-
-Managing TypeScript Errors
-Simplified code and adjusted tsconfig.json for type safety.
-
-
-Improving Form Validation
-Added client-side checks in app/decisions/ with business logic rules.
-
-
-Ensuring Consistent Data Fetching
-Optimized lib/api.ts with error handling and retry logic.
-
-
-Handling Large Decision Timelines
-Implemented lazy loading in dashboard/page.tsx with Decisions.js support.
-
-
-Enhancing Theme Switch Performance
-Cached styles in local storage for the presentation layer’s theme toggle.
-
-
-Contributing
-
-Fork the repository.
-Create a feature branch (git checkout -b feature/new-feature).
-Commit changes (git commit -m "Add new feature").
-Push to the branch (git push origin feature/new-feature).
-Open a pull request.
-
-Future Plans
-
-Advanced Analytics: Add predictive impact scores.
-User Authentication: Implement role-based access (e.g., admin, viewer).
-Real-Time Updates: Introduce WebSocket or polling for live data.
-Cross-Platform Support: Develop a mobile app with React Native.
-
-License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
-Contact
-
-Developers: W.M.C.M. Weerasekara (18APC3582), W.A.S.Y. Wanniarachchi (18APC3620)
-Email: [your-email@example.com]
-GitHub: https://github.com/charithasekara/Deci
-
-Acknowledgments
-
-Thanks to the Next.js and Tailwind CSS communities for robust tools.
-Appreciation to GitHub for Push Protection, which improved our security practices.
-
+- Gratitude to the Next.js and Tailwind CSS communities for their tools and support.
+- Thanks to GitHub for security features like Push Protection.
