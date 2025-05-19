@@ -79,13 +79,10 @@ Ensure the following tools are installed:
 - Install Dependencies
   ```bash
    npm install --force
-  ```
+  
+   yarn install --force
 
-# or
-
-yarn install --force
-
-````
+   ```
 - Install Dependencies
     ```bash
     npm install --force
