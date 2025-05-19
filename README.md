@@ -91,10 +91,10 @@ Ensure the following tools are installed:
 
     #Ensure .env is added to .gitignore to prevent committing sensitive data.
 
-    #MONGODB_URI=mongodb+srv://charithmadhushansekara:deci111mongo123@decisions.axf4i.mongodb.net/decisionsDbbfk
-    #PORT=5000
-    #HUGGING_FACE_API_KEY=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
-    #FRONTEND_URL=http://localhost:3000
+    MONGODB_URI=mongodb+srv://charithmadhushansekara:deci111mongo123@decisions.axf4i.mongodb.net/decisionsDbbfk
+    PORT=5000
+    HUGGING_FACE_API_KEY=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
+    FRONTEND_URL=http://localhost:3000
 
     #You can add these enviroment variables to test this application.
     ````
