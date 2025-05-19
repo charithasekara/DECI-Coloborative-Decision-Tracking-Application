@@ -69,10 +69,29 @@ Ensure the following tools are installed:
   git clone https://github.com/charithasekara/DECI-Collaborative-Decision-Tracking-Application.git
 
   ```
+
 - Navigate into the project directory
+
   ```bash
    cd Deci
   ```
+
+- Install Dependencies
+  ```bash
+   npm install --force
+  ```
+
+# or
+
+yarn install --force
+
+````
+- Install Dependencies
+    ```bash
+    npm install --force
+    # or
+    yarn install --force
+    ````
 
 ## Usage
 
@@ -124,3 +143,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 - Gratitude to the Next.js and Tailwind CSS communities for their tools and support.
 - Thanks to GitHub for security features like Push Protection.
+`````
