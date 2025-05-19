@@ -77,13 +77,21 @@ Ensure the following tools are installed:
   ```
 
 - Install Dependencies
-  ```bash
-   npm install --force
-  
-   yarn install --force
+    ```bash
+    npm install --force
+    # or
+    yarn install --force
+    ````
 
-   ```
-- Install Dependencies
+- Set Up Environment Variables
+    ```bash
+    #Create a .env file in the project root directory
+
+    NEXT_PUBLIC_API_URL=http://localhost:3000/api
+
+    #Ensure .env is added to .gitignore to prevent committing sensitive data.
+    ````
+- Run the Development Server
     ```bash
     npm install --force
     # or
